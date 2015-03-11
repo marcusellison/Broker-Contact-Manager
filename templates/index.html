@@ -1,0 +1,119 @@
+{% extends "main.html" %}
+{% autoescape %}
+<body>
+	{% block body %}
+	<div class="container">
+	<div id="loggedin">
+		
+		<h1>{{ header }}</h1>
+		<div id="logout">
+			Welcome <strong>Marcus</span></strong>!!
+			<a id="disconnect" href="javascript:void(0)">Log Out</a>
+		</div>
+		<ul  class="nav nav-tabs"> <!-- NAVIGATION TABS -->
+			<li class="active"><a id="mytaba" href="#" data-toggle="pill">Contacts</a></li>
+			<li><a id="mytaba" href="#" data-toggle="pill">App Requests</a></li>
+			<li><a id="mytab" href="#" data-toggle="pill">Payments</a></li>
+		</ul> <!-- END NAVIGATION TABS -->
+		
+		<div id="contacts">
+			<table id="contacttable" class="table">
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Date</th>
+					<tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th>Marcus Ellison</th>
+						<th>marcus.ellison@gmail.com</th>
+						<th>Today<th>
+					</tr>
+					{% for contact in contacts %}
+						<tr>
+							<th>{{ contact["name"] }}</th>
+							<th>{{ contact["email"] }}</th>
+							<th>{{ contact["date_created"] }}</th>
+						</tr>
+					{% end %}
+				</tbody>
+			</table>
+			<div class="row-fluid">
+				<div class="span4 offset4">
+					<a id="button" class="btn btn-large">Create New Contact</a>
+				</div>
+				<div class="span4 offset1">
+					<a class="btn btn-large">Create New Application Request</a>
+				</div>			
+			</div>
+		</div>
+		
+		<!-- Pop Up Window -->
+		<div class ="popup">
+			<a id="popupClose">x</a>
+			<h1>Creating a New Contact</h1>
+			<!-- body of popup -->
+			<div class="progress">
+				<div class="bar" style="width:0%;">
+				</div>
+			</div>
+			<!-- create new contact form -->
+			<form action="/index" method="POST" id="createcontact">
+				<label>Name</label>
+					<input type="text" placeholder="Type client's name here...">
+				<label>Email</label>
+					<input type="email" placeholder="Enter their email here..">
+				<input type="submit" id="submit" class="btn" value="submit">
+			</form>
+		</div> <!--======== end pop-up Window ========== -->
+		
+		<div class="backgroundPopup"></div>
+		<div id="output"></div>
+
+		
+		<div id="payment"> <!-- ====== Payment Window ==== -->
+				
+			<!-- =====Stripe Payment Form===== -->
+			<span class="payment-errors"></span> <!-- display payment errors -->
+			<form action="/index" method="POST" id="payment-form">
+			    <div class="form-row">
+			        <label>Card Number</label>
+			     	<input type="text" size="20" autocomplete="off" class="card-number"/>
+			    </div>
+			    <div class="form-row">
+			        <label>CVC</label>
+			        <input type="text" size="4" autocomplete="off" class="card-cvc"/>
+			    </div>
+			    <div class="form-row">
+			        <label>Expiration (MM/YYYY)</label>
+			        <input type="text" size="2" class="card-expiry-month"/>
+			        <span> / </span>
+			        <input type="text" size="4" class="card-expiry-year"/>
+			    </div>
+			    <button type="submit" class="submit-button">Submit Payment</button>
+			</form> <!-- =====end stripe payment form===== -->
+			
+			<!-- BEGIN NOCA ONECLICK PAY FORM -->
+			<form id="OCPform" action="https://sandbox.noca.com/hosted.php" method="post">
+
+			<input type="hidden" id="OCPformMerchantID" name="OCPformMerchantID" value="735"></input>
+
+			<input type="hidden" id="OCPformTotalAmount" name="OCPformTotalAmount" value="5"></input>
+
+			<input type="image" id="OCPsubmit" style="border: 3px outset rgb(0, 0, 200);" src="http://www.noca.com/images/SecureCheck_rounded30.png"></input>
+
+			<input type="hidden" id="OCPformDescription" name="OCPformDescription" value="Web Design Services"></input>
+
+			<input type="hidden" id="OCPformReplyTo" name="OCPformReplyTo" value="http://www.marcusellison.com"></input>
+
+			</form>
+			<!-- END ONECLICK PAY FORM -->
+				
+		</div>
+		
+		</div>
+	</div> <!--============== End LoggedIN -->
+	{% end %}			
+</body>
